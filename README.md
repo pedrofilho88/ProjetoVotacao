@@ -4,6 +4,10 @@ COMO USAR O GIT SIMPLIFICADO
 
 $ git checkout -b <novobranch>
 
+#--> APAGAR UM BRANCH
+
+$ git branch -d <nome_do_branch>
+
 #--> MOSTRAR EM QUAL BRANCH VC ESTA
 
 $ git branch -a
