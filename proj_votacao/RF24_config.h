@@ -1,0 +1,1 @@
+/home/pedro/temporario/Proj_votacao/proj_votacao/RF24_config.h
