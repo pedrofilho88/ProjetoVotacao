@@ -36,12 +36,3 @@ done
 
 
 
-#stty -F /dev/ttyACM0 raw speed 115200
-#echo "velocidade de transmissão ajustada!"
-#sleep 4
-#echo -n "digite o comando desejado:  "
-#read valor
-#echo $valor > /dev/ttyACM0
-#read -n 1 quant < /dev/ttyACM0
-#read -n $quant str < /dev/ttyACM0
-#echo $str
