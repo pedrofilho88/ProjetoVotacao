@@ -1,5 +1,9 @@
 COMO USAR O GIT SIMPLIFICADO
 
+#--> ADICIONAR UM ARQUIVO NO GIT
+
+$ git add .
+
 #--> CRIAR UM NOVO BRANCH
 
 $ git checkout -b <novobranch>
