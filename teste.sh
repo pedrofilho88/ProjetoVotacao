@@ -35,13 +35,7 @@ while (true) do
 done
 
 
-#sleep 1
-#echo "fim do programa!"
-#exit
 
-#stty -F /dev/ttyACM0 -isig
-#echo "desabilitada reinicialização!"
-#sleep 6
 #stty -F /dev/ttyACM0 raw speed 115200
 #echo "velocidade de transmissão ajustada!"
 #sleep 4
