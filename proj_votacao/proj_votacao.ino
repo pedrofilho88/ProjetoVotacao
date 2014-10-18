@@ -20,7 +20,7 @@ void setup(){
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
-    //zera();
+
 }
 // ******************** função loop ****************************************************
 void loop(){
