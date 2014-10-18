@@ -29,15 +29,10 @@ void mudaEstado(bool flag){
         radio.openWritingPipe(trans);
         radio.openReadingPipe(1,recep); //abre a comunicação como receptor
         radio.startListening(); // entra em listening
-        radio.printDetails();
-        Serial.println("Modo recepcao!");
     }
     else if(!flag)	{
         radio.stopListening(); //desabilita a recepção de dados
         radio.openReadingPipe(1,recep);
         radio.openWritingPipe(trans); //abre a comunicacao como transmissor
-        radio.printDetails();
-        Serial.println("Modo transmissao!");
-
     }
 }// fim_mudaEstado()*****************************************************************

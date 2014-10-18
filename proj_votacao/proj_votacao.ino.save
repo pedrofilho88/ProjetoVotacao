@@ -7,7 +7,7 @@
 #include "RF24.h"
 #include "printf.h"
 // *************************************************************************************
-char strTmp[20]="";//define um ponteiro temporario pra armazenar str
+char *strTmp;//define um ponteiro temporario pra armazenar str
 char *senha = NULL;
 char str[20]="";
 char votacao[20] = {"votacao"};
@@ -19,17 +19,12 @@ void setup(){
     Serial.begin(57600);//inicializa serial baud rate a 115200
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
-    delay(1000);//espera um tempo pra o radio terminar de inicializar
-    //zera();
+    delay(1000);//espera um tempo pra o radio terminar de inicializar    
 }
 // ******************** função loop ****************************************************
 void loop(){
   tam = 0;
-  int len = 0;
-  char temp = str[0];
-  if (temp){
-      zera();
-  }
+  int len = 0;  
   if (radio.available()){
         bool done = false;
         while(!done){
@@ -37,21 +32,18 @@ void loop(){
           tam = tam + len;
           done = radio.read(&str, len);//faz a leitura do radio
           delay(5);
-        }
-        Serial.println(str);
-        tam++;
-        Serial.println(tam);
+        }        
+        tam++;        
         str[tam] = '\0';
   } //fim_while
-    if (tam) {
+  if (tam) {
         compara();
-    }
-    delay(80);// aguarda 80 ms
+  }
+  delay(40);// aguarda 80 ms
 //*************   fim radio.available()     ********************************************
 }//fim loop******************************************************************************
 
-bool comparaString(char *rec1, char *rec2 ){ //rec1 = str ||| rec2 = votacao etc ...
-    Serial.print("comparaString = ");
+bool comparaString(char *rec1, char *rec2 ){ // compara uma String se iguais dev. true
     int contador=0;
     bool sinalizador = false;
     for(int v = 0; v < tam; v++){
@@ -59,65 +51,53 @@ bool comparaString(char *rec1, char *rec2 ){ //rec1 = str ||| rec2 = votacao etc
            contador++;
         }
     }
-    Serial.println(contador);
     if(contador == tam){
           sinalizador = true;
     }
     return sinalizador;
 }
 
-void zera(){
-      for(int a = 0; a < 20; a++){
-          //strTmp[a]=0;//define um ponteiro temporario pra armazenar str
-          str[a]=0;
-          //senha[a]=0;
-      }
+void zera(){  // zera o vetor str
+   for(int a = 0; a < 20; a++){
+      str[a]=0;
+   }
 }
 
-void compara(){
+void compara(){ // faz uma comparacao para saber o que fazer
        if( comparaString(str, presenca) ){
+          delete senha; // apaga a senha anterior
           delay(80);
-          Serial.println("Digite a Senha:");
           recebeTeclado();
-          Serial.println(vetor);
+          senha = vetor; // armazena senha digitada no ponteiro
+          strTmp = presenca; // atribui presenca ao ponteiro
           zera();
           mudaEstado(false);//muda o estado para transmissao
-          //bool done = false;
-          //int cont = 0;
-          //while(!done && cont<3){
-           bool done =  radio.write(&vetor, strlen(vetor));
-           Serial.println(done);
-          //    delay(80);
-          //    cont++;
-          //}
-          mudaEstado(true);
+          bool codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
+          mudaEstado(true); // muda o estado para recepção
       // fim presenca ******************************************************************
-      } /*else if( comparaString(str, votacao)){
-          //strTmp = str;
-          Serial.println("VOTE:1>SIM 2>NAO");
+      } else if( comparaString(str, votacao)){
           recebeTeclado();
-          Serial.println(vetor);
-          //mudaEstado(false);//muda o estado para transmissao
-          //bool done = false;
-          //bool done1 = false;
-          //while(!done){
-            //  done =  radio.write(voto, sizeof(voto));
-          //} // envia voto
-          //while (!done1){
-          //    done1 = radio.write(senha, sizeof(senha));
-          //} // envia senha
-          //mudaEstado(true);
+          delay(80);
+          strTmp = votacao; // atribui votacao ao ponteiro
+          zera();
+          mudaEstado(false); // muda o estado para transmissao
+          bool  voto  = radio.write(&vetor, strlen(vetor)); // envia o voto
+          delay(50); // aguarda 50 ms até a primeira mensagem ser enviada
+          bool codigo = radio.write(senha, strlen(senha));
+          mudaEstado(true); // muda o estado pra recepção
       // fim votacao ******************************************************************
       } else if( comparaString(str, confirmacao) ){
-          if(strcmp(strTmp, "presenca")==0){
+          if(comparaString(strTmp, presenca)){
               Serial.println("Presenca confirmada!");
-              //delete strTmp;
+              zera();
+              delete strTmp;
           }
-          if (strcmp(strTmp, "votacao")==0){
+          if (comparaString(strTmp, votacao)){
               Serial.println("Voto Computado");
-              //delete strTmp;
+              zera();
+              delete strTmp;
           }
-      }*/
+      }
       //fim do if confirmação *********************************************************
 
 }
