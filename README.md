@@ -31,3 +31,7 @@ $ git commit -am "comentario do que foi feito no codigo"git
 #--> COMO FAZER UM MERGE[juntar] ENTRE OS CÓDIGOS
 
 $ git merger <nome do branch>
+
+#--> como reverter um estado anterior por exemplo para antes de um merge
+
+$ git reset --hard 89aeb848b4d010b02d760650f16162837eb3daae 
