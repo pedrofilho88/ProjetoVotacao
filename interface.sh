@@ -7,15 +7,15 @@ sleep 1 #aguarda 1 segundo
 exec 3<> /dev/ttyUSB0 #abre serial novamente
 sleep 1 #aguarda 1 segundo
 
-
 while (true) do
-
-	sleep 1	
-	variavel=$(curl http://localhost:3000/votacao/estagio)
+	
+	status=" " # zera variavel status antes de começar
+	sleep 1	    # espera um segundo a cada iteração
+	status=$(curl http://localhost:3000/votacao/estagio)
         
-	if [ $variavel = "presenca" ]; then
+	if [ $status = "presenca" ]; then
 		echo "enviando valor"
-		echo $variavel > /dev/ttyUSB0
+		echo $status > /dev/ttyUSB0
 		echo "agora aguardando resposta do módulo..."
 		read codigo < /dev/ttyUSB0
 		echo "leu: " $codigo		
@@ -23,10 +23,10 @@ while (true) do
 		echo "enviou o codigo pra o site..."
 		sleep 0.2 # aguarda 200 ms para estabilidade		
 		echo "confirmacao" > /dev/ttyUSB0  #ENVIA CONFIRMACAO P/ MODULO		 
-                codigo= " "  # zera variavel codigo para proxima leitura
+        codigo=" "  # zera variavel codigo para proxima leitura
 		sleep 0.5  # aguarda 500 ms		
-	elif [ $variavel = "votar" ]; then
-		echo $variavel > /dev/ttyUSB0
+	elif [ $status = "votar" ]; then
+		echo $status > /dev/ttyUSB0
 		echo "agora aguardando resposta do módulo..."
 		read -n 1 voto < /dev/ttyUSB0 # Lê o voto
 		sleep 0.1 # aguarda 100 ms
@@ -35,16 +35,11 @@ while (true) do
 		echo "enviou o codigo e o voto para o site"
 		sleep 0.2
 		echo "confirmacao" > /dev/ttyUSB0 # ENVIA CONFIRMACAO P/MODULO
-		codigo= " "  # zera variavel codigo para proxima leitura
-		voto= ""     # zera variavel  voto  para proxima leitura
+		codigo=" "  # zera variavel codigo para proxima leitura
+		voto=""     # zera variavel  voto  para proxima leitura
 		sleep 0.5    # aguarda 500 ms
 	else
 		echo "sem acao"		
 	fi
 
 done
-
-
-
-#"${codigo}" | awk '{gsub(/^ +| +$/,"")} {print "=" $0 "="}'
-
