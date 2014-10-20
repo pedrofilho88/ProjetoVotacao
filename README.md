@@ -15,7 +15,7 @@ $ git branch -d <nome_do_branch>
 #--> MOSTRAR EM QUAL BRANCH VC ESTA
 
 $ git branch -a
-gi
+
 #--> SABER O QUE FOI ALTERADO
 
 $ git status

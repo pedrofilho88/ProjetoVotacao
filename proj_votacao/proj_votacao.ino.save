@@ -1,14 +1,12 @@
 #include "teclado.h"
 #include "radio.h"
 #include <Keypad.h>
-#include <stdio.h>
 #include <SPI.h>
 #include "nRF24L01.h"
 #include "RF24.h"
-#include "printf.h"
 // *************************************************************************************
 char *strTmp;//define um ponteiro temporario pra armazenar str
-char *senha = NULL;
+char senha[20]="";
 char str[20]="";
 char votacao[20] = {"votacao"};
 char presenca[20] = {"presenca"};
@@ -19,12 +17,12 @@ void setup(){
     Serial.begin(57600);//inicializa serial baud rate a 115200
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
-    delay(1000);//espera um tempo pra o radio terminar de inicializar    
+    delay(1000);//espera um tempo pra o radio terminar de inicializar
 }
 // ******************** função loop ****************************************************
 void loop(){
   tam = 0;
-  int len = 0;  
+  int len = 0;
   if (radio.available()){
         bool done = false;
         while(!done){
@@ -32,8 +30,8 @@ void loop(){
           tam = tam + len;
           done = radio.read(&str, len);//faz a leitura do radio
           delay(5);
-        }        
-        tam++;        
+        }
+        tam++;
         str[tam] = '\0';
   } //fim_while
   if (tam) {
@@ -65,10 +63,9 @@ void zera(){  // zera o vetor str
 
 void compara(){ // faz uma comparacao para saber o que fazer
        if( comparaString(str, presenca) ){
-          delete senha; // apaga a senha anterior
           delay(80);
           recebeTeclado();
-          senha = vetor; // armazena senha digitada no ponteiro
+          strcpy(senha, vetor); // copia vetor para senha 
           strTmp = presenca; // atribui presenca ao ponteiro
           zera();
           mudaEstado(false);//muda o estado para transmissao
@@ -80,8 +77,9 @@ void compara(){ // faz uma comparacao para saber o que fazer
           delay(80);
           strTmp = votacao; // atribui votacao ao ponteiro
           zera();
+          senha[strlen(senha)] = vetor[0];
           mudaEstado(false); // muda o estado para transmissao
-          bool  voto  = radio.write(&vetor, strlen(vetor)); // envia o voto
+          
           delay(50); // aguarda 50 ms até a primeira mensagem ser enviada
           bool codigo = radio.write(senha, strlen(senha));
           mudaEstado(true); // muda o estado pra recepção
