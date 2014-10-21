@@ -15,7 +15,7 @@ $ git branch -d <nome_do_branch>
 #--> MOSTRAR EM QUAL BRANCH VC ESTA
 
 $ git branch -a
-
+gi
 #--> SABER O QUE FOI ALTERADO
 
 $ git status
@@ -31,3 +31,15 @@ $ git commit -am "comentario do que foi feito no codigo"git
 #--> COMO FAZER UM MERGE[juntar] ENTRE OS CÓDIGOS
 
 $ git merger <nome do branch>
+
+#--> como reverter um estado anterior por exemplo para antes de um merge
+
+$ git reset --hard 89aeb848b4d010b02d760650f16162837eb3daae 
+
+#--> COMO CRIAR UM BRANCH E COPIAR OS ARQUIVOS PARA OUTRO BRANCH
+
+$ git checkout <master_por_exemplo> 
+$ git branch <novo_branch>
+$ git checkout -b <novo_branch> <master_por_exemplo>
+
+// desta forma o conteúdo de um branch -

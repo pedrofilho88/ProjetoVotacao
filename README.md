@@ -35,3 +35,13 @@ $ git merger <nome do branch>
 #--> como reverter um estado anterior por exemplo para antes de um merge
 
 $ git reset --hard 89aeb848b4d010b02d760650f16162837eb3daae 
+
+//SENDO O VALOR APOS O --hard <endereco_do_commit_por_exemplo>
+
+#--> COMO CRIAR UM BRANCH E COPIAR OS ARQUIVOS PARA OUTRO BRANCH
+
+$ git checkout <master_por_exemplo> 
+$ git branch <novo_branch>
+$ git checkout -b <novo_branch> <master_por_exemplo>
+
+// desta forma o conteúdo de um branch -
