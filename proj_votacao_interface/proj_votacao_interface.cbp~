@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="proj_votacao" />
+		<Option pch_mode="2" />
+		<Option compiler="avr-gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="proj_votacao" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="avr-gcc" />
+			</Target>
+			<Target title="Release">
+				<Option output="proj_votacao" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="avr-gcc" />
+			</Target>
+			<Target title="Tiny84 @ 16MHz">
+				<Option output="proj_votacao" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="avr-gcc" />
+				<Compiler>
+					<Add option="-mmcu=$(MCU)" />
+					<Add option="-D__AVR_ATtiny84__" />
+					<Add directory="$(ARDUINO_DIR)/hardware/arduino/cores/arduino" />
+					<Add directory="$(ARDUINO_DIR)/libraries" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DARDUINO=101" />
+			<Add option="-fno-exceptions" />
+			<Add option="-ffunction-sections" />
+			<Add option="-fdata-sections" />
+			<Add option="-x c++" />
+			<Add option="-s" />
+			<Add option="-DUSE_EEPROM=0" />
+			<Add option="-DUSE_ETHERNET=0" />
+			<Add option="-DUSE_FIRMATA=0" />
+			<Add option="-DUSE_LCD=0" />
+			<Add option="-DUSE_LCD4884=0" />
+			<Add option="-DUSE_OBD=0" />
+			<Add option="-DUSE_SD=0" />
+			<Add option="-DUSE_SERVO=0" />
+			<Add option="-DUSE_SOFTSERIAL=0" />
+			<Add option="-DUSE_SPI=0" />
+			<Add option="-DUSE_STEPPER=0" />
+			<Add option="-DUSE_TINYGPS=0" />
+			<Add option="-DUSE_WIRE=0" />
+			<Add option="-Wall" />
+			<Add directory="." />
+			<Add directory="$(ARDUINO_DIR)/libraries/EEPROM" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Ethernet" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Firmata" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Flash" />
+			<Add directory="$(ARDUINO_DIR)/libraries/LCD4884" />
+			<Add directory="$(ARDUINO_DIR)/libraries/LCD4Bit_mod" />
+			<Add directory="$(ARDUINO_DIR)/libraries/LiquidCrystal" />
+			<Add directory="$(ARDUINO_DIR)/libraries/SD" />
+			<Add directory="$(ARDUINO_DIR)/libraries/SD/utility" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Servo" />
+			<Add directory="$(ARDUINO_DIR)/libraries/SevenSegment" />
+			<Add directory="$(ARDUINO_DIR)/libraries/SoftwareSerial" />
+			<Add directory="$(ARDUINO_DIR)/libraries/SPI" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Stepper" />
+			<Add directory="$(ARDUINO_DIR)/libraries/TinyGPS" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Wire" />
+			<Add directory="$(ARDUINO_DIR)/libraries/Wire/utility" />
+		</Compiler>
+		<Linker>
+			<Add option="-Wl,--gc-sections" />
+		</Linker>
+		<Unit filename="cores/Arduino.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/CDC.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Client.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/HID.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/HardwareSerial.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/HardwareSerial.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/IPAddress.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/IPAddress.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Platform.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Print.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Print.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Printable.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Server.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Stream.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Stream.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Tone.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/USBAPI.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/USBCore.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/USBCore.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/USBDesc.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/Udp.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/WCharacter.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/WInterrupts.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/WMath.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/WString.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/WString.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/avr-libc/malloc.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/avr-libc/realloc.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/avr-libc/sectionname.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/avr-libc/stdlib_private.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/binary.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/new.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/new.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/wiring.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/wiring_analog.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/wiring_digital.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/wiring_private.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/wiring_pulse.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="cores/wiring_shift.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="libraries/libraries.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="radio.h">
+			<Option target="&lt;{~None~}&gt;" />
+		
+		</Unit>
+		<Unit filename="teclado.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="RF24.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="printf.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="proj_votacao.ino">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

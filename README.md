@@ -30,7 +30,7 @@ $ git commit -am "comentario do que foi feito no codigo"git
 
 #--> COMO FAZER UM MERGE[juntar] ENTRE OS CÓDIGOS
 
-$ git merger <nome do branch>
+$ git merge <nome do branch>
 
 #--> como reverter um estado anterior por exemplo para antes de um merge
 
@@ -45,3 +45,7 @@ $ git branch <novo_branch>
 $ git checkout -b <novo_branch> <master_por_exemplo>
 
 // desta forma o conteúdo de um branch -
+// mais um testes de credencial
+#--> COMO CONFIGURAR O GIT PARA FICAR UM MES SEM PRECISAR DIGITAR A SENHA E USUARIO
+
+$ git config --global credential.helper 'cache -- 2592000'
