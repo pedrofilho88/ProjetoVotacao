@@ -15,10 +15,10 @@
 char senha[20]="";
 char strRadio[20]="";
 char strSerial[20]="";
-int tamSerial = 0;
+int  tamSerial = 0;
 //********************* função setup ***************************************************
 void setup(){
-    Serial.begin(57600);//inicializa serial baud rate a 115200
+    Serial.begin(57600);//inicializa serial baud rate a 57600
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
@@ -28,17 +28,16 @@ void loop(){
   tamSerial = 0;
   tam = 0;
   int len = 0;
-
   while(Serial.available()){
-      strSerial[tamSerial] = Serial.read();
-      tamSerial++;
+      strSerial[tamSerial] = Serial.read();//le e arazena na string
+      tamSerial++;  //incrementa tamanho da string
   }
   if(tamSerial){
-      mudaEstado(false);
-      bool ok = radio.write(&strSerial, strlen(strSerial));
-      mudaEstado(true);
+      mudaEstado(false); // muda estado para transmissao
+      bool ok = radio.write(&strSerial, strlen(strSerial)); // envia string
+      mudaEstado(true); // muda estado denovo para recepção
       if(ok){
-          zeraStrSerial();
+          zeraStrSerial(); // zera conteudo da string StrSerial
       }
   }
   if (radio.available()){
@@ -56,10 +55,9 @@ void loop(){
         Serial.println(strRadio);
         zeraStrRadio();
   }
-  delay(40);// aguarda 80 ms
+  delay(40); // Aguarda 80 ms
 //*************   fim radio.available()     ********************************************
 }//fim loop******************************************************************************
-
 
 void zeraStrSerial(){
     for(int a = 0; a < 20; a++){
@@ -73,10 +71,3 @@ void zeraStrRadio(){  // zera o vetor str
    }
 }
 
-
-
-
-/*
-Este codigo ainda é experimental ainda sao necessarios testes e implementações
-adicionais que ainda não estao aqui
-*/
