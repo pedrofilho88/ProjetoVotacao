@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>proj_votacao build log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+<body>
+<tt>
+Build started on: <u>26-09-2014 at 19:09.38</u><br />
+Build ended on: <u>26-09-2014 at 19:09.39</u><p />
+<b>-------------- Build: Debug in proj_votacao (compiler: GNU AVR GCC Compiler)---------------</b><br />
+avr-gcc -DARDUINO=101 -fno-exceptions -ffunction-sections -fdata-sections -x c++ -s -DUSE_EEPROM=0 -DUSE_ETHERNET=0 -DUSE_FIRMATA=0 -DUSE_LCD=0 -DUSE_LCD4884=0 -DUSE_OBD=0 -DUSE_SD=0 -DUSE_SERVO=0 -DUSE_SOFTSERIAL=0 -DUSE_SPI=0 -DUSE_STEPPER=0 -DUSE_TINYGPS=0 -DUSE_WIRE=0 -Wall -mmcu=atmega324p -g -I. -I/libraries/EEPROM -I/libraries/Ethernet -I/libraries/Firmata -I/libraries/Flash -I/libraries/LCD4884 -I/libraries/LCD4Bit_mod -I/libraries/LiquidCrystal -I/libraries/SD -I/libraries/SD/utility -I/libraries/Servo -I/libraries/SevenSegment -I/libraries/SoftwareSerial -I/libraries/SPI -I/libraries/Stepper -I/libraries/TinyGPS -I/libraries/Wire -I/libraries/Wire/utility -I/usr/include/avr -I/usr/include -c cores/avr-libc/malloc.c -o obj/Debug/cores/avr-libc/malloc.o<br />
+avr-gcc -DARDUINO=101 -fno-exceptions -ffunction-sections -fdata-sections -x c++ -s -DUSE_EEPROM=0 -DUSE_ETHERNET=0 -DUSE_FIRMATA=0 -DUSE_LCD=0 -DUSE_LCD4884=0 -DUSE_OBD=0 -DUSE_SD=0 -DUSE_SERVO=0 -DUSE_SOFTSERIAL=0 -DUSE_SPI=0 -DUSE_STEPPER=0 -DUSE_TINYGPS=0 -DUSE_WIRE=0 -Wall -mmcu=atmega324p -g -I. -I/libraries/EEPROM -I/libraries/Ethernet -I/libraries/Firmata -I/libraries/Flash -I/libraries/LCD4884 -I/libraries/LCD4Bit_mod -I/libraries/LiquidCrystal -I/libraries/SD -I/libraries/SD/utility -I/libraries/Servo -I/libraries/SevenSegment -I/libraries/SoftwareSerial -I/libraries/SPI -I/libraries/Stepper -I/libraries/TinyGPS -I/libraries/Wire -I/libraries/Wire/utility -I/usr/include/avr -I/usr/include -c cores/avr-libc/realloc.c -o obj/Debug/cores/avr-libc/realloc.o<br />
+cores/avr-libc/malloc.c: In function ‘void free(void*)’:<br />
+<font color="#ff0000">cores/avr-libc/malloc.c:195:8: error: invalid conversion from ‘void*’ to ‘char*’ [-fpermissive]</font><br />
+  cpnew = p;<br />
+        ^<br />
+<font color="#a00000">Process terminated with status 1 (0 minute(s), 0 second(s))</font><br />
+<font color="#0000ff">Process terminated with status 0 (0 minute(s), 0 second(s))</font><br />
+<font color="#0000ff">1 error(s), 0 warning(s) (0 minute(s), 0 second(s))</font><br />
+</tt>
+</body>
+</html>

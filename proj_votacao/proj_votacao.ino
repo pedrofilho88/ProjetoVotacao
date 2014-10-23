@@ -1,3 +1,12 @@
+/*
+   proj_votacao
+   Date: 17 out 2014
+   Autor: Pedro Filho
+   e-mail : pedrofilhooliveirasantos@gmail.com
+   Versão: 1.0.0
+   Desc:  Este código é responsável por coletar os dados vindo do radio ligado ao PC
+   e enviar via rádio de volta o valor digitado no teclado.
+ */
 #include "teclado.h"
 #include "radio.h"
 #include <Keypad.h>
@@ -5,17 +14,16 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 // *************************************************************************************
-char *strTmp;//define um ponteiro temporario pra armazenar str
-char limpador = 0;
+char *strTmp=NULL;//define um ponteiro temporario pra armazenar str
 char senha[20]="";
 char str[20]="";
-char votacao[20] = {"votar"};
+char votar[20] = {"votar"};
 char presenca[20] = {"presenca"};
 char confirmacao[20] = {"confirmacao"};
 int tam = 0;
 //********************* função setup ***************************************************
 void setup(){
-    Serial.begin(57600);//inicializa serial baud rate a 115200
+    Serial.begin(57600);//inicializa serial baud rate a 57600
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
@@ -24,6 +32,7 @@ void setup(){
 void loop(){
   tam = 0;
   int len = 0;
+  if(str[0])  zera(); // se tiver alguma coisa na str zera o vetor
   if (radio.available()){
         bool done = false;
         while(!done){
@@ -62,38 +71,44 @@ void zera(){  // zera o vetor str
    }
 }
 
+void zeraSenha(){
+    for(int a = 0; a < 20; a++){
+      senha[a]=0;
+   }
+}
+
 void compara(){ // faz uma comparacao para saber o que fazer
        if( comparaString(str, presenca) ){
-          delay(80);
-          recebeTeclado();
-          strcpy(senha, vetor); // copia vetor para senha
-          strTmp = presenca; // atribui presenca ao ponteiro
-          zera();
-          mudaEstado(false);//muda o estado para transmissao
-          bool codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
-          mudaEstado(true); // muda o estado para recepção
+          if(!strTmp){
+            delay(80);
+            recebeTeclado();
+            strcpy(senha, vetor); // copia vetor para senha
+            strTmp = presenca; // atribui presenca ao ponteiro
+            mudaEstado(false);//muda o estado para transmissao
+            bool codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
+            mudaEstado(true); // muda o estado para recepção
+          }
       // fim presenca ******************************************************************
-      } else if( comparaString(str, votacao)){
-          recebeTeclado();
-          strcat(senha, vetor);//anexa voto digitado para o final da senha
-          delay(80);
-          strTmp = votacao; // atribui votacao ao ponteiro
-          zera();
-          mudaEstado(false); // muda o estado para transmissao
-          delay(20); // aguarda 20 ms
-          bool codigo = radio.write(&senha, strlen(senha));
-          mudaEstado(true); // muda o estado pra recepção
-      // fim votacao ******************************************************************
+      } else if( comparaString(str, votar)){
+          if(strTmp && senha[0]){
+            recebeTeclado();
+            strcat(senha, vetor);//anexa voto digitado para o final da senha
+            delay(80);
+            strTmp = votar; // atribui votar ao ponteiro
+            mudaEstado(false); // muda o estado para transmissao
+            delay(20); // aguarda 20 ms
+            bool codigo = radio.write(&senha, strlen(senha));
+            mudaEstado(true); // muda o estado pra recepção
+            zeraSenha();
+          }
+      // fim votar ********************************************************************
       } else if( comparaString(str, confirmacao) ){
           if(comparaString(strTmp, presenca)){
               Serial.println("Presenca confirmada!");
-              zera();
-              strTmp = &limpador;
           }
-          if (comparaString(strTmp, votacao)){
+          if (comparaString(strTmp, votar)){
               Serial.println("Voto Computado");
-              zera();
-              strTmp = &limpador;
+              strTmp = NULL;
           }
       }
       //fim do if confirmação *********************************************************

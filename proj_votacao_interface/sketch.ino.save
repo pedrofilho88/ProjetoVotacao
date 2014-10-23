@@ -1,0 +1,50 @@
+#include "teclado.h"
+#include "radio.h"
+#include <stdio.h>
+#include <Keypad.h>
+#include <SPI.h>
+#include <RF24.h>
+char *str;//define um ponteiro que irá armazenar os caracteres do teclado
+//char *recebido; //ponteiro que recebe os dados vindos do radio
+//********************* função setup ***************************************************
+
+void setup(){
+Serial.begin(115200);//inicializa serial baud rate a 115200
+delay(1000);//aguarda um segundo
+inicializaRadio();//chama função de radio.h para setar parametros do transmissor
+mudaEstado(true);
+
+}
+// ******************** função loop ****************************************************
+
+void loop(){
+
+	int tamanho = 0;
+	if(radio.available()){
+      bool feito = false;
+      while(!feito){
+          tamanho = radio.getDynamicPayloadSize();
+          feito = radio.read(str, tamanho);      
+      } // a partir daqui ele decide o que fazer
+      delete 
+	}	
+	
+	str = recebeTeclado();// chama a função teclado e armazena em *str
+	
+	boolean ok = radio.write( str,strlen(str) );// envia mensagem via radio
+	if (ok){
+		mudaEstado();
+	}
+	Serial.println(str);//exibe no terminal a mensagem enviada por radio
+
+}//fim loop*****************************************************************************
+
+
+/*
+
+
+Este codigo ainda é experimental ainda sao necessarios testes e implementações
+adicionais que ainda não estao aqui
+
+
+*/
