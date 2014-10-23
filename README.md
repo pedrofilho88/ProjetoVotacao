@@ -45,3 +45,4 @@ $ git branch <novo_branch>
 $ git checkout -b <novo_branch> <master_por_exemplo>
 
 // desta forma o conteúdo de um branch -
+// teste
