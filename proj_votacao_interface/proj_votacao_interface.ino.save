@@ -2,9 +2,9 @@
    proj_votacao
    Date: 17 out 2014
    Autor: Pedro Filho
-   e-mail : pedrofilhooliveirasantos@gmail.com
+   e-mail: pedrofilhooliveirasantos@gmail.com
    Versão: 1.0.0
-   Desc:  Este código é responsável por coletar os dados vindo do radio ligado ao PC
+   Desc: Este código é responsável por coletar os dados vindo do radio ligado ao PC
    e enviar via rádio de volta o valor digitado no teclado.
  */
 #include "radio.h"
@@ -12,10 +12,12 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 // *************************************************************************************
+uint8_t disp_num = NULL;// Declara uma varivel que dira o dispositivo que recebeu
 char senha[20]="";
 char strRadio[20]="";
 char strSerial[20]="";
 int  tamSerial = 0;
+int tam;
 //********************* função setup ***************************************************
 void setup(){
     Serial.begin(57600);//inicializa serial baud rate a 57600
@@ -29,24 +31,27 @@ void loop(){
   tam = 0;
   int len = 0;
   while(Serial.available()){
-      strSerial[tamSerial] = Serial.read();
-      tamSerial++;
+      strSerial[tamSerial] = Serial.read();//le e arazena na string
+      tamSerial++;  //incrementa tamanho da string
   }
+
   if(tamSerial){
-      mudaEstado(false);
-      bool ok = radio.write(&strSerial, strlen(strSerial));
-      mudaEstado(true);
-      if(ok){
-          zeraStrSerial();
+      if (!disp_num && !strcmp(strSerial,"ok")){
+          enviaTodos(strSerial);
       }
+      zeraStrSerial(); // zera conteudo da string StrSerial
   }
-  if (radio.available()){
+
+  if (radio.available(&disp_num)){
       bool done = false;
       while(!done){
         len = radio.getDynamicPayloadSize();
         tam = tam + len;
         done = radio.read(&strRadio, len);//faz a leitura do radio
         delay(5);
+      }
+      if(disp_num == 1){
+        Serial.println();
       }
       tam++;
       strRadio[tam] = '\0';
@@ -71,10 +76,3 @@ void zeraStrRadio(){  // zera o vetor str
    }
 }
 
-
-
-
-/*
-Este codigo ainda é experimental ainda sao necessarios testes e implementações
-adicionais que ainda não estao aqui
-*/
