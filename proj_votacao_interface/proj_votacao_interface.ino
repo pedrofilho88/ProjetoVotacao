@@ -34,28 +34,30 @@ void loop(){
       strSerial[tamSerial] = Serial.read();//le e arazena na string
       tamSerial++;  //incrementa tamanho da string
   }
-
+//se houve alguma informação da serial ...
   if(tamSerial){
       if (!disp_num && !strcmp(strSerial,"ok")){
           enviaTodos(strSerial);
       }
       zeraStrSerial(); // zera conteudo da string StrSerial
   }
-
+// se houver algo vindo via radio, armazena o endereço em disp_num
   if (radio.available(&disp_num)){
       bool done = false;
       while(!done){
-        len = radio.getDynamicPayloadSize();
-        tam = tam + len;
-        done = radio.read(&strRadio, len);//faz a leitura do radio
-        delay(5);
-      }
-      if(disp_num == 1){
-        Serial.println();
+            len = radio.getDynamicPayloadSize();
+            tam = tam + len;
+            done = radio.read(&strRadio, len);//faz a leitura do radio
+            delay(5);
       }
       tam++;
       strRadio[tam] = '\0';
-  } //fim_while
+  } //fim_if_radio.available()**
+  if(disp_num){
+        //entra num estado de esperar o resultado voltar
+        //não sei como fazer isso ainda
+  }
+
   if (tam) {
         Serial.println(strRadio);
         zeraStrRadio();
