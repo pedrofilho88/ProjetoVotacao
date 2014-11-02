@@ -16,11 +16,8 @@ while (true) do
 		decide
 	else
 		echo $lido_site > /dev/ttyUSB0 #envia comando para serial
-		echo "entrou no primeiro if"
 		status=$lido_site #atribui o valor lido pelo para status
-		echo "status: "$status 
-		echo "lido_site: "$lido_site
-	    decide
+		decide
 	fi	    
 done
 }
@@ -49,7 +46,7 @@ funcaoVotar() {
 	fi
 	principal	
 }
-${voto_lido:0:${#voto_lido}-4}
+
 funcaoPresenca() {
 	
 	resposta=" " #zera variavel resposta denovo
