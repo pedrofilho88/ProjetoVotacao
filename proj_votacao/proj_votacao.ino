@@ -7,16 +7,14 @@
    Desc:  Este código é responsável por coletar os dados vindo do radio ligado ao PC
    e enviar via rádio de volta o valor digitado no teclado.
  */
-#include <LiquidCrystal.h>
 #include "teclado.h"
 #include "radio.h"
 #include <Keypad.h>
 #include <SPI.h>
 #include "nRF24L01.h"
 #include "RF24.h"
+#include <LiquidCrystal.h>
 // *************************************************************************************
-//LiquidCrystal lcd(A0, A1, A2, A3, A4, A5);// usando pinos analogicos como pinos do display
-LiquidCrystal lcd(3, 4, 5, 6, 7, 8);
 char *strTmp=NULL;//define um ponteiro temporario pra armazenar str
 char senha[20]="";
 char str[20]="";
@@ -26,15 +24,16 @@ char confirmacao[20] = {"confirmacao"};
 int tam = 0;
 //********************* função setup ***************************************************
 void setup(){
-    //Serial.begin(57600);//inicializa serial baud rate a 57600
     delay(100);//aguarda um segundo
     lcd.begin(16, 2);
+    lcd.clear();
+    lcd.setCursor(5,0);
+    lcd.print("CAMARA");
+    lcd.setCursor(3,1);
+    lcd.print("MUNICIPAL");
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
-<<<<<<< HEAD
 
-=======
->>>>>>> testes
 }
 // ******************** função loop ****************************************************
 void loop(){
@@ -51,10 +50,6 @@ void loop(){
         }
         tam++;
         str[tam] = '\0';
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print(str);
-
   } //fim_while
   if (tam) {
         compara();
@@ -93,6 +88,9 @@ void compara(){ // faz uma comparacao para saber o que fazer
        if( comparaString(str, presenca) ){
           if(!strTmp){
             delay(80);
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("DIGITE SUA SENHA");
             recebeTeclado();
             strcpy(senha, vetor); // copia vetor para senha
             strTmp = presenca; // atribui presenca ao ponteiro
@@ -103,6 +101,9 @@ void compara(){ // faz uma comparacao para saber o que fazer
       // fim presenca ******************************************************************
       } else if( comparaString(str, votar)){
           if(strTmp && senha[0]){
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("VOTE:1-SIM|2-NAO");
             recebeTeclado();
             strcat(senha, vetor);//anexa voto digitado para o final da senha
             delay(80);
@@ -117,27 +118,20 @@ void compara(){ // faz uma comparacao para saber o que fazer
       } else if( comparaString(str, confirmacao) ){
           if(comparaString(strTmp, presenca)){
               lcd.clear();
-              lcd.setCursor(0, 0);
+              lcd.setCursor(4, 0);
               lcd.print("Presenca");
-              lcd.setCursor(0, 1);
+              lcd.setCursor(3, 1);
               lcd.print("Confirmada!");
-              Serial.println("Presenca confirmada!");
           }
           if (comparaString(strTmp, votar)){
               lcd.clear();
-              lcd.setCursor(0, 0);
+              lcd.setCursor(6, 0);
               lcd.print("Voto");
-              lcd.setCursor(0, 1);
+              lcd.setCursor(3, 1);
               lcd.print("Computado!");
-              Serial.println("Voto Computado");
               strTmp = NULL;
           }
       }
       //fim do if confirmação *********************************************************
 
 }
-
-/*
-Este codigo ainda é experimental ainda sao necessarios testes e implementações
-adicionais que ainda não estao aqui
-*/
