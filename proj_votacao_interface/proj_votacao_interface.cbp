@@ -73,6 +73,9 @@
 		<Linker>
 			<Add option="-Wl,--gc-sections" />
 		</Linker>
+		<Unit filename="RF24.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="cores/Arduino.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -245,22 +248,15 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="radio.h">
-			<Option target="&lt;{~None~}&gt;" />
-		
-		</Unit>
-		<Unit filename="teclado.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="RF24.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="printf.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="proj_votacao_interface.ino">
 			<Option target="Debug" />
 			<Option target="Release" />
+		</Unit>
+		<Unit filename="radio.h">
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Extensions>
 			<code_completion />

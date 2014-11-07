@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1414077973 source:/home/pedro/principal/proj_votacao_interface/cores/avr-libc/realloc.c
+	<stdlib.h>
+	<string.h>
+	"sectionname.h"
+	"stdlib_private.h"
+	<avr/io.h>
+
+1414077973 /home/pedro/principal/proj_votacao_interface/cores/avr-libc/sectionname.h
+
+1414077973 /home/pedro/principal/proj_votacao_interface/cores/avr-libc/stdlib_private.h
+	<inttypes.h>
+	<stdlib.h>
+	<avr/io.h>
+	<avr/io.h>
+
