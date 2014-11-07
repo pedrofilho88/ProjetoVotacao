@@ -16,7 +16,7 @@ uint8_t disp_num = NULL;// Declara uma varivel que dira o dispositivo que recebe
 char senha[20]="";
 char strRadio[20]="";
 char strSerial[20]="";
-int  tamSerial = 0;
+int tamSerial = 0;
 int tam;
 //********************* função setup ***************************************************
 void setup(){
@@ -24,24 +24,20 @@ void setup(){
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
+
 }
 // ******************** função loop ****************************************************
 void loop(){
   tamSerial = 0;
   tam = 0;
   int len = 0;
-  while(Serial.available()){
-      strSerial[tamSerial] = Serial.read();//le e arazena na string
-      tamSerial++;  //incrementa tamanho da string
-  }
-//se houve alguma informação da serial ...
+  recebeSerial();// recebe dados da serial e armazena em strSerial[]
   if(tamSerial){
-      if (!disp_num && !strcmp(strSerial,"ok")){
-          enviaTodos(strSerial);
+      if (!disp_num ){
+          enviaTodos(strSerial);//envia qualquer coisa que nao for confirmacao
       }
-      zeraStrSerial(); // zera conteudo da string StrSerial
+      zeraStrSerial();
   }
-// se houver algo vindo via radio, armazena o endereço em disp_num
   if (radio.available(&disp_num)){
       bool done = false;
       while(!done){
@@ -52,29 +48,53 @@ void loop(){
       }
       tam++;
       strRadio[tam] = '\0';
+      Serial.println(strRadio);//envia pra serial o que foi recebido por radio
+      while(strcmp(strSerial,"confirmacao")){
+           recebeSerial(); //verifica se alguma coisa veio pela serial
+      }
+      enviaEspecifico(disp_num, "confirmacao");
+      Serial.println(disp_num);
+      disp_num = NULL; // torna o numero do dispositivo inexistente denovo
+      zeraStrRadio();
+      //strSerial=NULL;
   } //fim_if_radio.available()**
-  if(disp_num){
-        //entra num estado de esperar o resultado voltar
-        //não sei como fazer isso ainda
-  }
-
-  if (tam) {
-        Serial.println(strRadio);
-        zeraStrRadio();
-  }
-  delay(40); // Aguarda 80 ms
 //*************   fim radio.available()     ********************************************
 }//fim loop******************************************************************************
 
-void zeraStrSerial(){
-    for(int a = 0; a < 20; a++){
-      strSerial[a]=0;
-   }
+
+
+void recebeSerial(){
+    while(Serial.available()){
+      delay(5);
+      strSerial[tamSerial] = Serial.read();//le e arazena na string
+      tamSerial++;  //incrementa tamanho da string
+    }
+
 }
 
 void zeraStrRadio(){  // zera o vetor str
    for(int a = 0; a < 20; a++){
       strRadio[a]=0;
    }
+}
+
+void zeraStrSerial(){  // zera o vetor str
+   for(int a = 0; a < 20; a++){
+      strSerial[a]=0;
+   }
+}
+
+bool comparaString(char *rec1, char *rec2 ){ // compara uma String se iguais dev. true
+    int contador=0;
+    bool sinalizador = false;
+    for(int v = 0; v < tam; v++){
+        if(rec1[v]==rec2[v]){
+           contador++;
+        }
+    }
+    if(contador == tam){
+          sinalizador = true;
+    }
+    return sinalizador;
 }
 

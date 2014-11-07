@@ -6,8 +6,8 @@
 #define CSN_PIN 10 //pino 10 do microcontrolador
 #define nro_dispositivos 3 // o numero de receptores
 // NOTA: recep define os endereços MAC doS dispositivos a serem recebidos
-const uint64_t recep[nro_dispositivos] = { 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL, 0xE8E8F0F0E4LL };
-const uint64_t trans[nro_dispositivos] = { 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL, 0xE8E8F0F0E4LL };
+const uint64_t recep[nro_dispositivos] = { 0xE8E8F0F0E1LL, 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL };
+const uint64_t trans[nro_dispositivos] = { 0xE8E8F0F0E1LL, 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL };
 RF24 radio(CE_PIN, CSN_PIN); // cria uma instancia de "RF24" chamada "radio"
 //**********************************************************************************
 void inicializaRadio(){
@@ -33,7 +33,7 @@ void enviaTodos(char *mensagem){ //Envia mensagem para todos endereços
       for(int x=0; x<nro_dispositivos; x++){
           radio.openWritingPipe(trans[x]);//transmite para endereço especificado
           delay(5); // aguarda 5 ms
-          radio.write(mensagem, strlen(mensagem)); //transmite mensagem
+          radio.write(mensagem, strlen(mensagem)-1); //transmite mensagem
       }
       for(int y=0; y<nro_dispositivos; y++){
           radio.openReadingPipe(y, recep[y]);//transmite para endereço especificado
@@ -48,18 +48,3 @@ void enviaEspecifico(uint8_t disp_num, char *mensagem){
       radio.write(mensagem, strlen(mensagem));
       modoRecepcao(); //coloca o módulo novamente em modo de recepção
 }
-
-
-/*void mudaEstado(bool flag){
-    if(flag){
-        radio.openWritingPipe(trans);
-        radio.openReadingPipe(1,recep); //abre a comunicação como receptor
-        radio.startListening(); // entra em listening
-    }
-    else if(!flag)	{
-        radio.stopListening(); //desabilita a recepção de dados
-        radio.openReadingPipe(1,recep);
-        radio.openWritingPipe(trans); //abre a comunicacao como transmissor
-    }
-}// fim_mudaEstado()*****************************************************************
-*/

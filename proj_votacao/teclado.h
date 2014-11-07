@@ -4,8 +4,10 @@ void zeraVetor();
 int cont=0;
 const byte ROWS = 4; //quatro linhas
 const byte COLS = 3; //tres colunas
-byte rowPins[ROWS] = {2, 3, 4, 5}; //conectar pino digital ao pino do teclado(linha)
-byte colPins[COLS] = {6, 7, 8}; //conectar pino digital ao pino do teclado(coluna)
+byte rowPins[ROWS] = {A0, A1, A2, A3}; //conectar pino digital ao pino do teclado(linha)
+byte colPins[COLS] = {A4, A5, 2}; //conectar pino digital ao pino do teclado(coluna)
+//byte rowPins[ROWS] = {2, 3, 4, 5};
+//byte colPins[COLS] = {6, 7, 8};
 char vetor[20];//declara vetor que armazenará teclas digitadas
 char keys[ROWS][COLS] = {
   {'1','2','3'},
@@ -43,6 +45,5 @@ void zeraVetor(){
   }
 
 }
-
 
 

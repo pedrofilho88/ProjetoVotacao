@@ -6,6 +6,7 @@ sleep 1 #aguarda 1 segundo
 exec 3<> /dev/ttyUSB0 #abre serial novamente
 sleep 1 #aguarda 1 segundo
 status=" " # zera variavel status antes de começar
+resposta=" "
 #***********************************************************************************************
 principal(){
 while (true) do	
@@ -34,10 +35,20 @@ decide() {
 funcaoVotar() {	
 	codigo=" "
 	resposta=" "
-	read -t 0.4 voto < /dev/ttyUSB0 # tenta ler alguma coisa por 400 ms	
-	if [[ $voto ]]; then		
-		codigo=${voto:0:${#voto}-2}	 # voto menos os dois ultimos digitos			
-		resposta=$(curl -d "codigo=$codigo&voto=${voto: (-1)}" http://localhost:3000/votacao)		
+	voto=0
+	read -t 0.4 voto < /dev/ttyUSB0 # tenta ler alguma coisa por 400 ms
+	echo "voto lido"
+	echo $voto
+	echo "tamanho"
+	echo ${#voto}
+	if [[ $voto ]]; then
+	    echo "entrou"
+	    echo "voto"${voto: (-3)}		
+		codigo=${voto:0:${#voto}-4}	 # voto menos os dois ultimos digitos
+		voto="${voto: (-3)}"
+		echo "voto cortado"$voto		
+		echo $codigo"codigo"
+		resposta=$(curl -d "codigo=$codigo&voto="${voto}"" http://localhost:3000/votacao)		
 		sleep 0.3
 		echo "resposta: " $resposta
 		if [[ $resposta == "ok" ]]; then
@@ -47,18 +58,22 @@ funcaoVotar() {
 	principal	
 }
 
-funcaoPresenca() {
-	
+funcaoPresenca() {	
 	resposta=" " #zera variavel resposta denovo
-	read -t 0.4 codigo < /dev/ttyUSB0 # tenta ler alguma coisa por 400 ms 
-	if [[ $codigo ]]; then	
+	codigo=" "
+	read -t 0.4 codigo < /dev/ttyUSB0 # tenta ler alguma coisa por 400 ms
+	echo
+	echo "codigo lido|"$codigo
+	echo		
+	if [[ $codigo ]]; then			
 		resposta=$(curl -d "codigo="${codigo}"" http://localhost:3000/votacao/presenca)
 		sleep 0.2
 		if [[ $resposta == "ok" ]]; then
 			echo "resposta ok"
 			echo "confirmacao" > /dev/ttyUSB0 #envia resposta de volta para serial
-		fi		
+		fi				
 	fi
+
 	principal	
 }
 principal
