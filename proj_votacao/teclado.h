@@ -3,7 +3,7 @@
 #include <LiquidCrystal.h>
 //*************************************************************************************
 void zeraVetor();
-int cont=0;
+int cont = 0;
 const byte ROWS = 4; //quatro linhas
 const byte COLS = 3; //tres colunas
 #ifdef tls //se for o tls
@@ -15,7 +15,6 @@ const byte COLS = 3; //tres colunas
     byte rowPins[ROWS] = {2, 3, 4, 5};
     byte colPins[COLS] = {6, 7, 8};
 #endif // tls
-
 char vetor[20];//declara vetor que armazenará teclas digitadas
 char keys[ROWS][COLS] = {
   {'1','2','3'},
@@ -25,7 +24,6 @@ char keys[ROWS][COLS] = {
 };
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );//instancia
 //**************************************************************************************
-
 void recebeTeclado(){
   zeraVetor();
 	char tecla=0;//declara variavel que recebe a tecla digitada no momento
@@ -47,7 +45,6 @@ void recebeTeclado(){
   lcd.print("AGUARDE...");
 	cont--;
 	vetor[cont] = ' ';
-
 }//fim_recebe_teclado*****************************************************************
 
 void zeraVetor(){

@@ -9,9 +9,7 @@ const uint64_t recep = 0xE8E8F0F0E2LL; // define o mac do receptor
 const uint64_t trans = 0xE8E8F0F0E2LL;// define o mac do transmissor
 RF24 radio(CE_PIN, CSN_PIN); // cria uma instancia de "RF24" chamada "radio"
 void mudaEstado(bool flag);
-
 //**********************************************************************************
-
 void inicializaRadio(){
       printf_begin();
       radio.begin();//inicializa o rádio
@@ -23,7 +21,6 @@ void inicializaRadio(){
       radio.setCRCLength(RF24_CRC_16);//define tamanho do dado transmitido
       mudaEstado(true); //inicializa o radio a prinicipio como receptor
 }//fim_inicializaRadio()*************************************************************
-
 void mudaEstado(bool flag){
     if(flag){
         radio.openWritingPipe(trans);

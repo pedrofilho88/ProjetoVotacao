@@ -33,7 +33,6 @@ void setup(){
     lcd.print("MUNICIPAL");
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
-
 }
 // ******************** função loop ****************************************************
 void loop(){
@@ -57,7 +56,6 @@ void loop(){
   delay(40);// aguarda 80 ms
 //*************   fim radio.available()     ********************************************
 }//fim loop******************************************************************************
-
 bool comparaString(char *rec1, char *rec2 ){ // compara uma String se iguais dev. true
     int contador=0;
     bool sinalizador = false;
@@ -71,7 +69,6 @@ bool comparaString(char *rec1, char *rec2 ){ // compara uma String se iguais dev
     }
     return sinalizador;
 }
-
 void zera(){  // zera o vetor str
    for(int a = 0; a < 20; a++){
       str[a]=0;
@@ -83,7 +80,6 @@ void zeraSenha(){
       senha[a]=0;
    }
 }
-
 void compara(){ // faz uma comparacao para saber o que fazer
        if( comparaString(str, presenca) ){
           if(!strTmp){
@@ -131,7 +127,5 @@ void compara(){ // faz uma comparacao para saber o que fazer
               lcd.print("Computado!");
               strTmp = NULL;
           }
-      }
-      //fim do if confirmação *********************************************************
-
+      } //fim do if confirmação *********************************************************
 }
