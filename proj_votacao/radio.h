@@ -5,8 +5,8 @@
 #define CE_PIN   9 //pino 9 do microcontrolador
 #define CSN_PIN 10 //pino 10 do microcontrolador
 // NOTA: define o endereço mac do dispositivo a ser transmitido
-const uint64_t recep = 0xE8E8F0F0E2LL; // define o mac do receptor
-const uint64_t trans = 0xE8E8F0F0E2LL;// define o mac do transmissor
+const uint64_t recep = 0xE8E8F0F0E1LL; // define o mac do receptor
+const uint64_t trans = 0xE8E8F0F0E1LL;// define o mac do transmissor
 RF24 radio(CE_PIN, CSN_PIN); // cria uma instancia de "RF24" chamada "radio"
 void mudaEstado(bool flag);
 //**********************************************************************************

@@ -1,4 +1,4 @@
-#define tls // se for teclado normal apenas comentar essa linha
+//#define tls // se for teclado normal apenas comentar essa linha
 #include <Keypad.h>
 #include <LiquidCrystal.h>
 //*************************************************************************************
