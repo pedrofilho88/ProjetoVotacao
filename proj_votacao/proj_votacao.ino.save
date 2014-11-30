@@ -18,9 +18,6 @@
 char *strTmp=NULL;//define um ponteiro temporario pra armazenar str
 char senha[20]="";
 char str[20]="";
-char votar[20] = {"votar"};
-char presenca[20] = {"presenca"};
-char confirmacao[20] = {"confirmacao"};
 int tam = 0;
 //********************* função setup ***************************************************
 void setup(){
@@ -42,10 +39,10 @@ void loop(){
   if (radio.available()){
         bool done = false;
         while(!done){
-          len = radio.getDynamicPayloadSize();
-          tam = tam + len;
-          done = radio.read(&str, len);//faz a leitura do radio
-          delay(5);
+            len = radio.getDynamicPayloadSize();
+            tam = tam + len;
+            done = radio.read(&str, len);//faz a leitura do radio
+            delay(5);
         }
         tam++;
         str[tam] = '\0';
@@ -81,8 +78,54 @@ void zeraSenha(){
    }
 }
 void compara(){ // faz uma comparacao para saber o que fazer
-       if( comparaString(str, presenca) ){
-          if(!strTmp){
+      if( comparaString(str, "presenca") ){
+            funcaoPresenca();// chama funcao presenca      
+      } else if( comparaString(str, "votar")){
+            funcaoVotar();// chama funcao votar      
+      } else if( comparaString(str, "confirmacao") ){
+          if(comparaString(strTmp, "presenca")){
+              lcd.clear();
+              lcd.setCursor(4, 0);
+              lcd.print("Presenca");
+              lcd.setCursor(3, 1);
+              lcd.print("Confirmada!");
+          }
+          if (comparaString(strTmp, "votar")){
+              lcd.clear();
+              lcd.setCursor(6, 0);
+              lcd.print("Voto");
+              lcd.setCursor(3, 1);
+              lcd.print("Computado!");
+              strTmp = NULL;
+          }
+      } //fim do if confirmação *********************************************************
+}
+
+void funcaoVotar(){
+    if(strTmp && senha[0]){
+            lcd.clear();
+            lcd.setCursor(0,0);
+            lcd.print("VOTE:1-SIM/2-NAO");
+            recebeTeclado(false);
+            strcat(senha, vetor);//anexa voto digitado para o final da senha
+            delay(80);
+            strTmp = votar; // atribui votar ao ponteiro
+            mudaEstado(false); // muda o estado para transmissao
+            delayMicroseconds(200); // aguarda 20 ms
+            bool codigo = false;
+            codigo = radio.write(&senha, strlen(senha));
+            while(!codigo){
+                delay(80);
+                inicializaRadio();
+                codigo = radio.write(&vetor, strlen(vetor));
+            }
+            mudaEstado(true); // muda o estado pra recepção
+            zeraSenha();
+    }
+}
+
+void funcaoPresenca(){
+    if(!strTmp){
             delay(80);
             lcd.clear();
             lcd.setCursor(0,0);
@@ -95,51 +138,10 @@ void compara(){ // faz uma comparacao para saber o que fazer
             codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
             lcd.print(codigo);
             while(!codigo){
-                delay(80);
-
+                delayMicroseconds(200);
                 inicializaRadio();
                 codigo = radio.write(&vetor, strlen(vetor));
             }
             mudaEstado(true); // muda o estado para recepção
           }
-      // fim presenca ******************************************************************
-      } else if( comparaString(str, votar)){
-          if(strTmp && senha[0]){
-            lcd.clear();
-            lcd.setCursor(0,0);
-            lcd.print("VOTE:1-SIM/2-NAO");
-            recebeTeclado(false);
-            strcat(senha, vetor);//anexa voto digitado para o final da senha
-            delay(80);
-            strTmp = votar; // atribui votar ao ponteiro
-            mudaEstado(false); // muda o estado para transmissao
-            delay(20); // aguarda 20 ms
-            bool codigo = false;
-            codigo = radio.write(&senha, strlen(senha));
-            while(!codigo){
-                delay(80);
-                inicializaRadio();
-                codigo = radio.write(&vetor, strlen(vetor));
-            }
-            mudaEstado(true); // muda o estado pra recepção
-            zeraSenha();
-          }
-      // fim votar ********************************************************************
-      } else if( comparaString(str, confirmacao) ){
-          if(comparaString(strTmp, presenca)){
-              lcd.clear();
-              lcd.setCursor(4, 0);
-              lcd.print("Presenca");
-              lcd.setCursor(3, 1);
-              lcd.print("Confirmada!");
-          }
-          if (comparaString(strTmp, votar)){
-              lcd.clear();
-              lcd.setCursor(6, 0);
-              lcd.print("Voto");
-              lcd.setCursor(3, 1);
-              lcd.print("Computado!");
-              strTmp = NULL;
-          }
-      } //fim do if confirmação *********************************************************
 }
