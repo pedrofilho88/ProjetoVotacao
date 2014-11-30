@@ -3,7 +3,7 @@
    Date: 17 out 2014
    Autor: Pedro Filho
    e-mail : pedrofilhooliveirasantos@gmail.com
-   Versão: 1.0.0
+   Versão: 1.2.0
    Desc:  Este código é responsável por coletar os dados vindo do radio ligado ao PC
    e enviar via rádio de volta o valor digitado no teclado.
  */

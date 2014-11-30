@@ -3,7 +3,7 @@
    Date: 17 out 2014
    Autor: Pedro Filho
    e-mail : pedrofilhooliveirasantos@gmail.com
-   Versão: 1.0.0
+   Versão: 1.2.0
    Desc:  Este código é responsável por coletar os dados vindo do radio ligado ao PC
    e enviar via rádio de volta o valor digitado no teclado.
  */
@@ -93,9 +93,10 @@ void compara(){ // faz uma comparacao para saber o que fazer
             mudaEstado(false);//muda o estado para transmissao
             bool codigo = false;
             codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
+            lcd.print(codigo);
             while(!codigo){
                 delay(80);
-                serial.println()
+
                 inicializaRadio();
                 codigo = radio.write(&vetor, strlen(vetor));
             }
@@ -115,7 +116,6 @@ void compara(){ // faz uma comparacao para saber o que fazer
             delay(20); // aguarda 20 ms
             bool codigo = false;
             codigo = radio.write(&senha, strlen(senha));
-
             while(!codigo){
                 delay(80);
                 inicializaRadio();
