@@ -1,4 +1,4 @@
-//#define tls // se for teclado normal apenas comentar essa linha
+#define tls // se for teclado normal apenas comentar essa linha
 #include <Keypad.h>
 #include <LiquidCrystal.h>
 //*************************************************************************************
@@ -24,26 +24,62 @@ char keys[ROWS][COLS] = {
 };
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );//instancia
 //**************************************************************************************
-void recebeTeclado(){
+void recebeTeclado(bool stts){ // stts = true -> presenca | stts=false votacao
   zeraVetor();
 	char tecla=0;//declara variavel que recebe a tecla digitada no momento
   lcd.setCursor(0, 1);
+  bool stp = false; // true -> não deixa digitar mais | false -> normal
 	cont=0;//declara contador de caracters digitados
 	//char *pont;// declara ponteiro que retornará inforção
 	do{
 		tecla=0;
 		tecla = keypad.getKey(); //atribui se alguma tecla for pressionada
-		if(tecla){//se alguma tecla for pressionada
-      if(tecla != '#') lcd.print(tecla);
-			vetor[cont]=tecla;//atribui tecla pessionada ao vetor
-			cont++;//incrementa o contador de teclas
-			lcd.setCursor(cont, 1);
+		if(tecla == '*' && stts){
+      zeraVetor(); // zera o vetor do teclado
+      cont=0; //zera contador de string
+      tecla=0;
+      stp = false;
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("DIGITE SUA SENHA");
+      lcd.setCursor(0,1); // ajusta a posição do cursor pra primeira pos, 2 linha
+		} else if (tecla == '*' && !stts){
+      zeraVetor(); // zera o vetor do teclado
+      cont=0; //zera contador de string
+      tecla=0;
+      stp = false;
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("VOTE:1-SIM/2-NAO");
+      lcd.setCursor(0,1); // ajusta a posição do cursor pra primeira pos, 2 linha
+		}
+
+		if(tecla && stts && !stp){//se alguma tecla for pressionada
+      if(tecla != '#'){
+        lcd.print('*');
+        vetor[cont]=tecla;//atribui tecla pessionada ao vetor
+        cont++;//incrementa o contador de teclas
+        lcd.setCursor(cont, 1);
+			}
+		} else if(tecla && !stts && !stp) {
+      if(tecla != '#'){
+        if(tecla == '1'){
+          lcd.print("Sim");
+          vetor[cont] = tecla;
+          cont++;
+          stp = true;
+        } else if (tecla == '2'){
+          lcd.print("Nao");
+          vetor[cont] = tecla;
+          cont++;
+          stp = true;
+        }
+			}
 		}
 	} while(tecla != '#');//enquanto a tecla # não for pressionada não sai daqui
 	lcd.clear();
   lcd.setCursor(3, 0);
   lcd.print("AGUARDE...");
-	cont--;
 	vetor[cont] = ' ';
 }//fim_recebe_teclado*****************************************************************
 

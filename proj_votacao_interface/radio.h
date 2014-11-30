@@ -4,10 +4,10 @@
 /*------------------------------------------------------------------------------*/
 #define CE_PIN   9 //pino 9 do microcontrolador
 #define CSN_PIN 10 //pino 10 do microcontrolador
-#define nro_dispositivos 3 // o numero de receptores
+#define nro_dispositivos 4 // o numero de receptores
 // NOTA: recep define os endereços MAC doS dispositivos a serem recebidos
-const uint64_t recep[nro_dispositivos] = { 0xE8E8F0F0E1LL, 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL };
-const uint64_t trans[nro_dispositivos] = { 0xE8E8F0F0E1LL, 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL };
+const uint64_t recep[nro_dispositivos] = { 0xE8E8F0F0E1LL, 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL, 0xE8E8F0F0E4LL };
+const uint64_t trans[nro_dispositivos] = { 0xE8E8F0F0E1LL, 0xE8E8F0F0E2LL, 0xE8E8F0F0E3LL, 0xE8E8F0F0E4LL };
 RF24 radio(CE_PIN, CSN_PIN); // cria uma instancia de "RF24" chamada "radio"
 //**********************************************************************************
 void inicializaRadio(){

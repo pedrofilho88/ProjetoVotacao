@@ -87,11 +87,19 @@ void compara(){ // faz uma comparacao para saber o que fazer
             lcd.clear();
             lcd.setCursor(0,0);
             lcd.print("DIGITE SUA SENHA");
-            recebeTeclado();
+            recebeTeclado(true);
             strcpy(senha, vetor); // copia vetor para senha
             strTmp = presenca; // atribui presenca ao ponteiro
             mudaEstado(false);//muda o estado para transmissao
-            bool codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
+            bool codigo = false;
+            codigo = radio.write(&vetor, strlen(vetor)); //envia o a senha via radio
+            lcd.print(codigo);
+            while(!codigo){
+                delay(80);
+
+                inicializaRadio();
+                codigo = radio.write(&vetor, strlen(vetor));
+            }
             mudaEstado(true); // muda o estado para recepção
           }
       // fim presenca ******************************************************************
@@ -99,14 +107,20 @@ void compara(){ // faz uma comparacao para saber o que fazer
           if(strTmp && senha[0]){
             lcd.clear();
             lcd.setCursor(0,0);
-            lcd.print("VOTE:1-SIM|2-NAO");
-            recebeTeclado();
+            lcd.print("VOTE:1-SIM/2-NAO");
+            recebeTeclado(false);
             strcat(senha, vetor);//anexa voto digitado para o final da senha
             delay(80);
             strTmp = votar; // atribui votar ao ponteiro
             mudaEstado(false); // muda o estado para transmissao
             delay(20); // aguarda 20 ms
-            bool codigo = radio.write(&senha, strlen(senha));
+            bool codigo = false;
+            codigo = radio.write(&senha, strlen(senha));
+            while(!codigo){
+                delay(80);
+                inicializaRadio();
+                codigo = radio.write(&vetor, strlen(vetor));
+            }
             mudaEstado(true); // muda o estado pra recepção
             zeraSenha();
           }

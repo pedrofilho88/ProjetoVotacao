@@ -1,5 +1,5 @@
 #!/bin/bash
-stty 57600 -ixon icanon </dev/ttyUSB0 #abre serial e ajusta baud rate
+stty 115200 -ixon icanon </dev/ttyUSB0 #abre serial e ajusta baud rate
 sleep 1 #aguarda 1 segundo
 stty -a -F /dev/ttyUSB0 #desabilita reinicializacao
 sleep 1 #aguarda 1 segundo

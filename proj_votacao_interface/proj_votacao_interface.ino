@@ -3,7 +3,7 @@
    Date: 17 out 2014
    Autor: Pedro Filho
    e-mail: pedrofilhooliveirasantos@gmail.com
-   Versão: 1.0.0
+   Versão: 2.0.0
    Desc: Este código é responsável por coletar os dados vindo do radio ligado ao PC
    e enviar via rádio de volta o valor digitado no teclado.
  */
@@ -11,89 +11,100 @@
 #include <SPI.h>
 #include "nRF24L01.h"
 #include "RF24.h"
+#define numDispositivos 4
 // *************************************************************************************
-uint8_t disp_num = NULL;// Declara uma varivel que dira o dispositivo que recebeu
-char senha[20]="";
-char strRadio[20]="";
+uint8_t disp = NULL; // Declara uma varivel que dira o disp
+uint8_t disp_atual = NULL; // disp que esta trabalhando no momento
+int disp_num[numDispositivos] = {NULL,NULL,NULL,NULL};
 char strSerial[20]="";
 int tamSerial = 0;
-int tam;
+int contaDisp = 0; //variavel que conta os dispositivos armazenados
+char strArmazenada[numDispositivos][20];
 //********************* função setup ***************************************************
 void setup(){
-    Serial.begin(57600);//inicializa serial baud rate a 57600
+    Serial.begin(115200);//inicializa serial baud rate a 57600
     delay(100);//aguarda um segundo
     inicializaRadio();//chama função de radio.h para setar parametros do transmissor
     delay(1000);//espera um tempo pra o radio terminar de inicializar
-
+    zeraStrSerial();
 }
 // ******************** função loop ****************************************************
 void loop(){
-  tamSerial = 0;
-  tam = 0;
-  int len = 0;
-  recebeSerial();// recebe dados da serial e armazena em strSerial[]
-  if(tamSerial){
-      if (!disp_num ){
-          enviaTodos(strSerial);//envia qualquer coisa que nao for confirmacao
-      }
-      zeraStrSerial();
-  }
-  if (radio.available(&disp_num)){
-      bool done = false;
-      while(!done){
-            len = radio.getDynamicPayloadSize();
-            tam = tam + len;
-            done = radio.read(&strRadio, len);//faz a leitura do radio
-            delay(5);
-      }
-      tam++;
-      strRadio[tam] = '\0';
-      Serial.println(strRadio);//envia pra serial o que foi recebido por radio
-      while(!comparaString(strSerial, "confirmacao" )){
-           recebeSerial(); //verifica se alguma coisa veio pela serial
-      }
-      enviaEspecifico(disp_num, "confirmacao");
-      disp_num = NULL; // torna o numero do dispositivo inexistente denovo
-      zeraStrRadio();
-      zeraStrSerial();
-  } //fim_if_radio.available()**
-//*************   fim radio.available()     ********************************************
+        verificaRadio(); //chama função pra ver se chegou alguma coisa' pelo radio
+        if(contaDisp && !disp_atual) {
+              Serial.println(strArmazenada[verificaDispositivo()]);//manda string da fila pela serial
+        }
+        if(recebeSerial()){
+              if (!disp_atual){
+                  enviaTodos(strSerial);//envia qualquer coisa que nao for confirmacao
+                  zeraStrSerial();
+              } else if (disp_atual){
+                   if(comparaString(strSerial, "confirmacao")){
+                        enviaEspecifico(disp_atual, "confirmacao");
+                        disp_atual = NULL; // zera o disp atual
+                        contaDisp--;
+                        zeraStrSerial();
+                   }
+              }
+        }
 }//fim loop******************************************************************************
-
-
-
-void recebeSerial(){
+bool recebeSerial(){
+    tamSerial = 0;
+    bool statusSerial = false;
     while(Serial.available()){
       delay(5);
       strSerial[tamSerial] = Serial.read();//le e arazena na string
       tamSerial++;  //incrementa tamanho da string
+
     }
-
+    if(tamSerial){
+        strSerial[tamSerial] = '\0';
+        statusSerial = true;
+    }
+    return statusSerial;
 }
-
-void zeraStrRadio(){  // zera o vetor str
-   for(int a = 0; a < 20; a++){
-      strRadio[a]=0;
-   }
-}
-
 void zeraStrSerial(){  // zera o vetor str
-   for(int a = 0; a < 20; a++){
-      strSerial[a]=0;
-   }
+    tamSerial = 0;
+    for(int a = 0; a < 20; a++){
+        strSerial[a]=0;
+    }
 }
-
 bool comparaString(char *rec1, char *rec2 ){ // compara uma String se iguais dev. true
     int contador=0;
+    int y = strlen(rec2)-1;
     bool sinalizador = false;
-    for(int v = 0; v < tam; v++){
-        if(rec1[v]==rec2[v]){
-           contador++;
-        }
+    for(int v = 0; v < y; v++){
+        if(rec1[v] == rec2[v])  contador++;
     }
-    if(contador == tam){
-          sinalizador = true;
-    }
+    if(contador == y)  sinalizador = true;
     return sinalizador;
 }
+void verificaRadio(){
+    int len = 0;
+    int tam = 0;
+    if (radio.available(&disp)){
+        bool done = false;
+        while(!done){
+              len = radio.getDynamicPayloadSize();
+              tam = tam + len;
+              done = radio.read(strArmazenada[contaDisp], len);//faz a leitura do radio
+              delayMicroseconds(260);
+        }
+        disp_num[contaDisp] = disp;
+        strArmazenada[contaDisp][tam] = '\0';
+        contaDisp++;
+    }
+}
 
+int verificaDispositivo(){
+    for(int x=0; x < numDispositivos; x++){
+        uint8_t tmp = disp_num[x];
+        if(tmp){
+            disp_atual = tmp;
+            disp_num[x] = NULL;
+            return x;
+            break;
+        }
+    }
+    return -1;
+}
