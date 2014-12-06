@@ -77,10 +77,11 @@ void recebeTeclado(bool stts){ // stts = true -> presenca | stts=false votacao
 			}
 		}
 	} while(tecla != '#');//enquanto a tecla # não for pressionada não sai daqui
+	vetor[cont] = ' ';
 	lcd.clear();
   lcd.setCursor(3, 0);
-  //lcd.print("AGUARDE...");
-	vetor[cont] = ' ';
+  lcd.print("AGUARDE...");
+  	
 }//fim_recebe_teclado*****************************************************************
 
 void zeraVetor(){
