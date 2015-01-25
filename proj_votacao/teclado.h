@@ -1,4 +1,4 @@
-#define tls // se for teclado normal apenas comentar essa linha
+//#define tls // se for teclado normal apenas comentar essa linha
 #include <Keypad.h>
 #include <LiquidCrystal.h>
 //*************************************************************************************
@@ -55,27 +55,29 @@ void recebeTeclado(bool stts){ // stts = true -> presenca | stts=false votacao
 		}
 
 		if(tecla && stts && !stp){//se alguma tecla for pressionada
-      if(tecla != '#'){
-        lcd.print('*');
-        vetor[cont]=tecla;//atribui tecla pessionada ao vetor
-        cont++;//incrementa o contador de teclas
-        lcd.setCursor(cont, 1);
-			}
-		} else if(tecla && !stts && !stp) {
-      if(tecla != '#'){
-        if(tecla == '1'){
-          lcd.print("Sim");
-          vetor[cont] = tecla;
-          cont++;
-          stp = true;
-        } else if (tecla == '2'){
-          lcd.print("Nao");
-          vetor[cont] = tecla;
-          cont++;
-          stp = true;
+        if(tecla != '#'){
+            lcd.print('*');
+            vetor[cont]=tecla;//atribui tecla pessionada ao vetor
+            cont++;//incrementa o contador de teclas
+            if(cont > 15) stp=true; /** impede que seja digitado mais que 16 caracteres*/
+            lcd.setCursor(cont, 1);
         }
+		} else if(tecla && !stts && !stp) {
+        if(tecla != '#'){
+            if(tecla == '1'){
+                lcd.print("Sim");
+                vetor[cont] = tecla;
+                cont++;
+                stp = true;
+            } else if (tecla == '2'){
+                lcd.print("Nao");
+                vetor[cont] = tecla;
+                cont++;
+                stp = true;
+            }
 			}
 		}
+
 	} while(tecla != '#');//enquanto a tecla # não for pressionada não sai daqui
 	vetor[cont] = ' ';
 	lcd.clear();
